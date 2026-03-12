@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     const prompt = req.body.prompt;
 
     const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`,
       {
         method: "POST",
         headers: {
@@ -20,7 +20,9 @@ export default async function handler(req, res) {
           contents: [
             {
               role: "user",
-              parts: [{ text: prompt }]
+              parts: [
+                { text: prompt }
+              ]
             }
           ]
         })
@@ -29,7 +31,7 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
-    let reply = "Zenith AI error.";
+    let reply = "Zenith AI encountered an error.";
 
     if (data.candidates && data.candidates.length > 0) {
       reply = data.candidates[0].content.parts[0].text;
